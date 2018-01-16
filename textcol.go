@@ -59,12 +59,15 @@ func PrintColumns(strs *[]string, margin int) {
 		numSpacesRequired := maxLength - strLen
 		spaceStr := strings.Repeat(" ", numSpacesRequired)
 
+		// print the item itself
 		fmt.Printf(str)
-		fmt.Printf(spaceStr)
-		fmt.Printf(marginStr)
+
 		// if we're at the last column, print a line break
 		if x+1 == numCols {
-			fmt.Println("")
+			fmt.Printf("\n")
+		} else {
+			fmt.Printf(spaceStr)
+			fmt.Printf(marginStr)
 		}
 	}
 }
