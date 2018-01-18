@@ -2,6 +2,7 @@ package textcol
 
 import (
 	"fmt"
+	"io"
 	"math"
 	"os"
 	"os/exec"
@@ -11,6 +12,8 @@ import (
 
 	"github.com/acarl005/stripansi"
 )
+
+var Output io.Writer = os.Stdout
 
 func PrintColumns(strs *[]string, margin int) {
 	// get the longest string the columns need to contain
@@ -34,7 +37,7 @@ func PrintColumns(strs *[]string, margin int) {
 	// if we're forced into a single column, fall back to simple printing (one per line)
 	if numCols == 1 {
 		for _, str := range *strs {
-			fmt.Println(str)
+			fmt.Fprintln(Output, str)
 		}
 		return
 	}
@@ -60,14 +63,14 @@ func PrintColumns(strs *[]string, margin int) {
 		spaceStr := strings.Repeat(" ", numSpacesRequired)
 
 		// print the item itself
-		fmt.Printf(str)
+		fmt.Fprintf(Output, str)
 
 		// if we're at the last column, print a line break
 		if x+1 == numCols {
-			fmt.Printf("\n")
+			fmt.Fprintf(Output, "\n")
 		} else {
-			fmt.Printf(spaceStr)
-			fmt.Printf(marginStr)
+			fmt.Fprintf(Output, spaceStr)
+			fmt.Fprintf(Output, marginStr)
 		}
 	}
 }
